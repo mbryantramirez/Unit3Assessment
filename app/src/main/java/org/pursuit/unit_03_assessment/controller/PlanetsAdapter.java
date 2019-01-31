@@ -14,6 +14,10 @@ import org.pursuit.unit_03_assessment.view.PlanetsViewHolder;
 import java.util.List;
 
 public class PlanetsAdapter extends RecyclerView.Adapter<PlanetsViewHolder> {
+
+    /**
+     * access should be made private
+     */
     List<PlanetObjects> planetObjectsList;
 
     public PlanetsAdapter(List<PlanetObjects> planetObjectsList) {

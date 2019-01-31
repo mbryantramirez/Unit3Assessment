@@ -45,6 +45,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         if(sharedPreferences.contains("username") && sharedPreferences.contains("checkbox")){
+            /**
+             * you can can compress these 4 lines of code into two by using .setText(sharedPreferences.getString())
+             *
+             * the defValue your returning should not be null otherwise theres a chance youll get an nullpointerexception if you try to do something to the string
+             */
             String user = sharedPreferences.getString("username", null);
             emailView.setText(user);
             boolean checkbox = sharedPreferences.getBoolean("checkbox", false);
@@ -96,18 +101,27 @@ public class LoginActivity extends AppCompatActivity {
             if(user.equals(getResources().getString(R.string.dummy_username))
                     && pass.equals(getResources().getString(R.string.dummy_password))
                     && usernameCheckbox.isChecked()) {
-
+                /**
+                 * you dont need to reassign the value of shared preferences here it was already set in onCreate
+                 */
                 sharedPreferences = getSharedPreferences(SHAREDPREFS, MODE_PRIVATE);
+                /**
+                 * you can chain the edits you want to make here
+                 * edit().putString(getString(R.string.username_key), user).putBoolean(getString(R.string.checkbox_key), true).apply();
+                 *
+                 * doesnt make sense for these two changes to be part of individual calls to .apply()
+                 */
                 sharedPreferences.edit().putString(getString(R.string.username_key), user).apply();
                 sharedPreferences.edit().putBoolean(getString(R.string.checkbox_key), true).apply();
 
                 Intent intent = new Intent(getApplicationContext(), RecyclerActivity.class);
                 startActivity(intent);
-            }
-            else if(user.equals(getResources().getString(R.string.dummy_username))
+            } else if(user.equals(getResources().getString(R.string.dummy_username))
                     && pass.equals(getResources().getString(R.string.dummy_password))
                     && !(usernameCheckbox.isChecked())){
-
+                /**
+                 * calling .clear() would have also worked in this situation
+                 */
                 sharedPreferences.edit().remove(getString(R.string.username_key)).apply();
 
                 Intent intent = new Intent(getApplicationContext(), RecyclerActivity.class);

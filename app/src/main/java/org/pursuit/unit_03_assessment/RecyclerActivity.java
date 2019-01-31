@@ -21,6 +21,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+/**
+ * You should make sure to format your code more often command option l helps to make things look neater
+ */
 public class RecyclerActivity extends AppCompatActivity {
     private static final String LOGIDENTIFIER = "TAGTAGTAG";
     private RecyclerView recyclerView;
@@ -61,15 +64,17 @@ public class RecyclerActivity extends AppCompatActivity {
                 .enqueue(new Callback<PlanetArray>() {
                     @Override
                     public void onResponse(Call<PlanetArray> call, Response<PlanetArray> response) {
+                      /**
+                       * check if response.body() is null before you try to call methods in the response theres a possibility of crashing the app if there is an successful but empty response
+                       */
                         Log.d(LOGIDENTIFIER, "OnResponse: " + response.body().getPlanets().get(0).getName());
                         Log.d(LOGIDENTIFIER, "OnResponse: " + response.body().getPlanets().get(0).getNumber());
                         Log.d(LOGIDENTIFIER, "OnResponse: " + response.body().getPlanets().get(0).getImage());
-
-                        for(int i = 0; i < response.body().getPlanets().size(); i++){
-                            planetsList.add(response.body().getPlanets().get(i));
-                        }
+                      /**
+                       * java Lists have an addAll method you dont need to iterate through the list and add all methods individually
+                       */
+                      planetsList.addAll(response.body().getPlanets());
                         Log.d(LOGIDENTIFIER, "Size: " + planetsList.size());
-
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     }
